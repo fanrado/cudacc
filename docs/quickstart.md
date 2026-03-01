@@ -4,6 +4,8 @@ Get started with cudacc in minutes.
 
 ## Basic Usage
 
+**Note:** For array creation, create arrays on CPU using NumPy, then transfer to GPU using `np_gpu.array()`. This avoids potential CUDA library dependencies for random number generation while keeping all computations on GPU.
+
 ### 1. Accelerating NumPy
 
 The simplest way to use cudacc:
@@ -15,8 +17,11 @@ from cudacc import accelerate
 # Accelerate NumPy for GPU 0
 np_gpu = accelerate(np, devices=[0])
 
-# Now use np_gpu exactly like numpy
-data = np_gpu.random.randn(10_000_000)
+# Create data on CPU, transfer to GPU
+data_cpu = np.random.randn(10_000_000).astype(np.float32)
+data = np_gpu.array(data_cpu)
+
+# Perform operations on GPU
 result = np_gpu.sum(data)
 print(f"Sum: {result}")
 ```
@@ -32,8 +37,9 @@ import numpy as np
 # Auto-detect and use all available GPUs
 np_gpu = accelerate(np)
 
-# Operations will use the selected devices
-arr = np_gpu.zeros(1000000)
+# Create array on CPU, transfer to GPU
+arr_cpu = np.zeros(1000000, dtype=np.float32)
+arr = np_gpu.array(arr_cpu)
 ```
 
 ### 3. Multiple Operations
@@ -46,8 +52,9 @@ import numpy as np
 
 np_gpu = accelerate(np, devices=[0])
 
-# Create data
-data = np_gpu.random.randn(1_000_000)
+# Create data on CPU, transfer to GPU
+data_cpu = np.random.randn(1_000_000).astype(np.float32)
+data = np_gpu.array(data_cpu)
 
 # Multiple operations (all on GPU)
 normalized = (data - np_gpu.mean(data)) / np_gpu.std(data)
@@ -117,7 +124,8 @@ np_gpu = accelerate(np, devices=[0])
 
 # Profile an operation
 with GPUProfiler("sum_operation") as profiler:
-    data = np_gpu.random.randn(10_000_000)
+    data_cpu = np.random.randn(10_000_000).astype(np.float32)
+    data = np_gpu.array(data_cpu)
     result = np_gpu.sum(data)
 
 print(profiler.results)
@@ -134,7 +142,8 @@ np_gpu = accelerate(np, devices=[0])
 
 @profile("my_computation")
 def my_function(n):
-    data = np_gpu.random.randn(n)
+    data_cpu = np.random.randn(n).astype(np.float32)
+    data = np_gpu.array(data_cpu)
     return np_gpu.sum(data ** 2)
 
 result = my_function(10_000_000)
@@ -153,10 +162,10 @@ tracker = MemoryTracker()
 
 tracker.snapshot("Initial")
 
-data1 = np_gpu.zeros(10_000_000)
+data1 = np_gpu.array(np.zeros(10_000_000, dtype=np.float32))
 tracker.snapshot("After data1")
 
-data2 = np_gpu.ones(10_000_000)
+data2 = np_gpu.array(np.ones(10_000_000, dtype=np.float32))
 tracker.snapshot("After data2")
 
 tracker.print_summary()
@@ -309,7 +318,8 @@ GPU acceleration is most effective for large arrays:
 small = np_gpu.array([1, 2, 3])  # Overhead may exceed benefit
 
 # Large arrays: GPU shines
-large = np_gpu.random.randn(10_000_000)  # Great for GPU
+large_cpu = np.random.randn(10_000_000).astype(np.float32)
+large = np_gpu.array(large_cpu)  # Great for GPU
 ```
 
 ### 3. Batch Operations
