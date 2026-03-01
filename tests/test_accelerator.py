@@ -47,11 +47,11 @@ class TestAccelerator:
     def test_no_cuda_available(self, monkeypatch):
         """Test behavior when CUDA is not available."""
         from cudacc import accelerate
-        from cudacc.utils import device
+        # from cudacc.utils import device
         
-        # Mock detect_devices to return empty list
-        monkeypatch.setattr(device, 'detect_devices', lambda: [])
-        
+        # # Mock detect_devices to return empty list
+        # monkeypatch.setattr(device, 'detect_devices', lambda: [])
+        monkeypatch.setattr('cudacc.utils.device.detect_devices', lambda: [])
         with pytest.raises(RuntimeError, match="No CUDA devices"):
             accelerate(np)
     
