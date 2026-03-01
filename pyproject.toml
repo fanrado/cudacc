@@ -1,0 +1,20 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "cudacc"
+version = "0.1.0"
+description = "Package wrapper for cuda acceleration"
+readme = "README.md"
+requires-python = ">=3.9"
+license = {file = "LICENSE"}
+authors = [
+    {name = "Rado Razakamiandra", email = "radofana@gmail.com"}
+]
+
+dependencies = [
+    "torch",
+    "numpy >= 1.20",
+    "matplotlib"
+]
