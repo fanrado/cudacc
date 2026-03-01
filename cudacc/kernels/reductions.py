@@ -158,6 +158,8 @@ def gpu_sum(array):
     try:
         import cupy as cp
         device_array = cp.asarray(array)
+        if device_array.size == 0:
+            return 0.0
         output = cp.zeros(1, dtype=device_array.dtype)
         
         threads_per_block = 256
