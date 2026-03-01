@@ -1,5 +1,5 @@
 [build-system]
-requires = ["setuptools>=61.0", "wheel"]
+requires = ["setuptools>=68", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
@@ -14,7 +14,14 @@ authors = [
 ]
 
 dependencies = [
-    "torch",
-    "numpy >= 1.20",
-    "matplotlib"
+    "numba>=0.58",
+    "cupy-cuda12x",
+    "rmm-cu12",
+    "numpy",
+    "pytest",
 ]
+
+[project.optional-dependencies]
+hep = ["uproot", "awkward"]
+fluid = ["fenics"]
+dev = ["pytest", "pytest-benchmark"]
