@@ -1,24 +1,5 @@
 # CUDACC
 
----
-
-<div align="center">
-
-#### ⚠️ **UNDER DEVELOPMENT** ⚠️
-
-<p style="color: red; font-size: 1em; font-weight: bold;">
-🚧 THIS PACKAGE IS CURRENTLY UNDER ACTIVE DEVELOPMENT AND TESTING/VALIDATION 🚧
-</p>
-
-**NOT RECOMMENDED FOR PRODUCTION USE**
-
-The API may change without notice. Features are being tested and validated.
-Use at your own risk.
-
----
-
-</div>
-
 > Transparent CUDA acceleration for scientific Python packages
 
 **cudacc** is a Python library that provides transparent GPU acceleration for popular scientific computing packages like NumPy, SciPy, and domain-specific tools.
